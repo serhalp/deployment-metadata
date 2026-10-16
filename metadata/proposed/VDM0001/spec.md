@@ -2,7 +2,7 @@
 
 # Summary
 
-Defines a public deployment value and an ordered list of header or query carriers understood by its producer.
+Defines a public deployment value and an ordered list of header, query, or cookie carriers understood by its producer.
 
 # Basic example
 
@@ -16,6 +16,7 @@ const metadata: RequestMetadata = {
   carriers: [
     { type: "header", name: "x-deployment-id" },
     { type: "query", name: "__deployment_id" },
+    { type: "cookie", name: "__deployment_id" },
   ],
 };
 ```
@@ -26,8 +27,8 @@ Deployment providers know public values used for features such as skew protectio
 
 # Detailed design
 
-`value` is a public string or a zero-argument synchronous/asynchronous producer. `carriers` is non-empty and ordered by producer preference. Header carriers preserve the given HTTP field name. Query carriers set or replace the named URL search parameter rather than appending a duplicate.
+`value` is a public string or a zero-argument synchronous/asynchronous producer. `carriers` is non-empty and ordered by producer preference. Header carriers preserve the given HTTP field name. Query carriers set or replace the named URL search parameter rather than appending a duplicate. Cookie carriers set the named cookie.
 
-Consumers decide whether and where they can apply a carrier. They must not add metadata to arbitrary user requests or cross-origin requests. This standard defines no URL, header, or request mutation utility.
+Consumers decide whether and where they can apply a carrier. They must not add metadata to arbitrary user requests or cross-origin requests, although in the case of cookies browsers send them with every request in their scope, including requests the consumer doesn't make. This standard defines no URL, header, cookie, or request mutation utility.
 
-Values must be safe in client bundles, request headers, URLs, logs, browser developer tools, and source maps. They must never contain credentials, tokens, private environment variables, or other secrets. Header names must be valid HTTP field names, and query names must be non-empty and usable with `URLSearchParams`.
+Values must be safe in client bundles, request headers, URLs, cookies, logs, browser developer tools, and source maps. They must never contain credentials, tokens, private environment variables, or other secrets. Header names must be valid HTTP field names, query names must be non-empty and usable with `URLSearchParams`, and cookie names must be valid cookie names.

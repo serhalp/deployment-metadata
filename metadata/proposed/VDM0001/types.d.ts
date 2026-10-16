@@ -11,7 +11,8 @@ import type {
  */
 export type RequestMetadataCarrier =
   | { type: "header"; name: string }
-  | { type: "query"; name: string };
+  | { type: "query"; name: string }
+  | { type: "cookie"; name: string };
 
 /**
  * A public deployment value and the request carriers that accept it.
