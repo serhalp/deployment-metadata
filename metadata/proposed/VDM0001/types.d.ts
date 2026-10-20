@@ -11,7 +11,8 @@ import type {
  */
 export type RequestMetadataCarrier =
   | { type: "header"; name: string }
-  | { type: "query"; name: string };
+  | { type: "query"; name: string }
+  | { type: "cookie"; name: string };
 
 /**
  * How a consumer applies request metadata, passed to `RequestMetadata.enable()`.
